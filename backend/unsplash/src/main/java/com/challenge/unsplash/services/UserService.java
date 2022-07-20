@@ -28,8 +28,12 @@ public class UserService {
         return userRepository.findByEmailAndPassword(email, password);
     }
     
-    public boolean existisByEmail(String email){
+    public boolean existsByEmail(String email){
         return userRepository.existsByEmail(email);
+    }
+    
+    public boolean existsByEmailAndPassword(String email, String password){
+        return userRepository.existsByEmailAndPassword(email, password);
     }
     
     @Transactional
