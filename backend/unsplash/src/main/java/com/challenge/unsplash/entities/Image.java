@@ -1,6 +1,8 @@
 
 package com.challenge.unsplash.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
@@ -14,6 +16,7 @@ public class Image implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false, referencedColumnName = "id")
     private User user;
@@ -41,6 +44,7 @@ public class Image implements Serializable{
         this.id = id;
     }
 
+    @JsonIgnore
     public User getUser() {
         return user;
     }
