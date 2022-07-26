@@ -214,5 +214,5 @@ dist
 
 documentacao/arquivos/Diagrama de Classes (astah)/*.asta.lock
 nodesource_setup.sh
-*yarn.lock
-*package-lock.json
+yarn.lock
+package-lock.json
