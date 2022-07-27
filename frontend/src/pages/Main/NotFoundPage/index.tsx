@@ -3,7 +3,7 @@ import { Centralize } from './styled';
 
 
 const NotFoundPage: React.FC = () => {
-    document.title += '| Página não encontrada';
+    document.title = 'Unsplash App | Página não encontrada';
     return (
         <>
             <Centralize>

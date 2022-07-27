@@ -13,30 +13,28 @@ export const Button =  styled.button<propBTN>`
     width: ${(props) => props.widthBTN ? props.widthBTN : 100}%;
 
     border-radius: 6px;
-    cursor: poiter;
+    cursor: pointer;
    
     font-size: 1.8rem;
     font-weight: bold;
-    max-width: 300px;
-    padding: 15px;
+    padding: 5px 10px;
     
     border: none;
     box-shadow: 0 2px 4px 0 black;
     transition: background-color 1s;
 
     &:focus{
-        transform: translateY(2px); 
+        transform: translateY(-10px); 
         border: 1px solid lightgrey;
         box-shadow: inset 0px 0px 10px 0 grey;
     }
     
-
     &:disabled{
         background-color: #ffff;
         color: #646464;
-        transform: translateY(2px); 
+        transform: translateY(-1px); 
         border: 1px solid lightgrey;
         box-shadow: inset 0px 0px 10px 0 grey;
         cursor: auto;
-    }
+    }   
 `;
