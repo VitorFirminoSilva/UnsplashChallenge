@@ -1,21 +1,30 @@
 import React from 'react';
-import { Input } from './styled';
+import PropTypes from 'prop-types';
+import { Error, Input, InputGroup, Label } from './styled';
 
-interface props extends React.InputHTMLAttributes<HTMLInputElement>{
-    width ?: number;
-    noLoading ?: boolean;
+interface Props extends React.InputHTMLAttributes<HTMLInputElement>{
+    name: string;
+    label?: string;
+    allowNegative?: boolean;
+    required?: boolean;
+    width?: number; 
 }
 
-const CustomInput: React.FC<props> = ({ children, width, disabled, noLoading, ...rest }) => {
+const CustomInput: React.FC<Props> = ({ name, label, allowNegative, required, width, ...rest }) => {
+
     return (
-        <>
-            <Input disabled={disabled} widthINP={width} {...rest} />
-                
-        </>
+        <InputGroup width={width}>
+            {label && <Label htmlFor={name}>{label} {required? '*' : ''}</Label>}
+            <Input name={name} {...rest} />  
+            <Error></Error>
+        </InputGroup>
     );
 }
 
 CustomInput.propTypes = {
-    
+    label: PropTypes.string,
+    allowNegative: PropTypes.bool,
+    required: PropTypes.bool,
+    width: PropTypes.number,
 };
 export default CustomInput;
