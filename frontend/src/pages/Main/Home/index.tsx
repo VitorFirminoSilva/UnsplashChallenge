@@ -10,22 +10,6 @@ const Home: React.FC = () => {
     return (
         <ComponentDiv>
             <h1>Home</h1>
-            <Input 
-                required={true} 
-                placeholder="Digite seu nome completo" 
-                label='Name' 
-                name="name" 
-                width={50}
-            />
-            <Input label='Name' name="name" width={50}/>
-            <Button 
-                background='blue'
-                color='black'
-                width={50}
-                disabled={false} 
-                type="submit">
-                Entrar
-            </Button>
         </ComponentDiv>
     );
 };
