@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Error, Input, InputGroup, Label } from './styled';
+import { Error, Input, InputField, Label } from './styled';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement>{
     name: string;
@@ -10,14 +10,14 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement>{
     width?: number; 
 }
 
-const CustomInput: React.FC<Props> = ({ name, label, allowNegative, required, width, ...rest }) => {
+const CustomInput: React.FC<Props> = ({ name, label, form, allowNegative, required, width, ...rest }) => {
 
     return (
-        <InputGroup width={width}>
+        <InputField width={width}>
             {label && <Label htmlFor={name}>{label} {required? '*' : ''}</Label>}
-            <Input name={name} {...rest} />  
+            <Input autoComplete='none' name={name} {...rest} />  
             <Error></Error>
-        </InputGroup>
+        </InputField>
     );
 }
 

@@ -35,5 +35,6 @@ export const Button =  styled.button<propBTN>`
         border: 1px solid lightgrey;
         box-shadow: inset 0px 0px 10px 0 grey;
         cursor: auto;
-    }   
+    } 
+
 `;

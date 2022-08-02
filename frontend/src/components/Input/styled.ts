@@ -17,10 +17,19 @@ export const Input =  styled.input<Props>`
     &:focus{
         border: 2px solid grey;
     }
+
+    &.sm{
+        height: 20px;
+    }
+
+    &.lg{
+        height: 50px;
+        font-size: 1.8rem;
+    }
 `;
 
 
-export const InputGroup =  styled.div<Props>`
+export const InputField =  styled.div<Props>`
     width: ${(props) => props.width ? props.width : 100}%;
     display: flex;
     flex-direction: column;
