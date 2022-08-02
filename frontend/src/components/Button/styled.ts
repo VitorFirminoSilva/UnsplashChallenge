@@ -18,13 +18,13 @@ export const Button =  styled.button<propBTN>`
     font-size: 1.8rem;
     font-weight: bold;
     padding: 5px 10px;
-    
+    margin: 2px;
     border: none;
     box-shadow: 0 2px 4px 0 black;
     transition: background-color 1s;
 
     &:focus{
-        transform: translateY(-10px); 
+        margin: 1px;
         border: 1px solid lightgrey;
         box-shadow: inset 0px 0px 10px 0 grey;
     }
@@ -32,7 +32,6 @@ export const Button =  styled.button<propBTN>`
     &:disabled{
         background-color: #ffff;
         color: #646464;
-        transform: translateY(-1px); 
         border: 1px solid lightgrey;
         box-shadow: inset 0px 0px 10px 0 grey;
         cursor: auto;
