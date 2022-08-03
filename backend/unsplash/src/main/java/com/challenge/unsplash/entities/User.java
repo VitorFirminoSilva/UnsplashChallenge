@@ -1,5 +1,6 @@
 package com.challenge.unsplash.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
@@ -12,6 +13,9 @@ public class User implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(nullable = false)
+    private String name;
     
     @Column(unique = true, nullable = false)
     private String email;
@@ -35,6 +39,14 @@ public class User implements Serializable{
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -43,6 +55,7 @@ public class User implements Serializable{
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
