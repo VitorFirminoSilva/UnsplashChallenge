@@ -44,6 +44,7 @@ public class UserController {
     
     @PostMapping(value = "/login")
     public ResponseEntity<Object> login(@RequestBody @Valid LoginDTO loginDTO){
+
         if(!userService.existsByEmail(loginDTO.getEmail())){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: user email is not found!");
         }

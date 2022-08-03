@@ -1,28 +1,34 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import CustomButton from '../../../components/Button';
-import CustomInput from '../../../components/Input';
 import { CenterWrapper, FormGroup, InputGroup, TextWrapper, Wrapper } from './styled';
-import { FormHandles } from '@unform/core';
-import { Error, Input, InputField, Label } from '../../../components/Input/styled';
+import CustomInput from '../../../components/Input';
+import { fetchGetUser } from '../../../services/fetch/user';
 
-interface FormData {
+interface ICredentials {
     email: string;
     password: string;
 }
 
+
 const SignIn: React.FC = () => {
     document.title = 'Unsplash App | SignIn';
-
-    const formRef = useRef<FormHandles>(null);
 
     const { register, handleSubmit , formState: { errors } }  = useForm();
 
     const navigate = useNavigate();
 
-    const getSubmit = (data: {}) => {
-       console.log(data);
+    const getSubmit = ( data : any) => {
+
+        const options: ICredentials = {
+            email: data?.email,
+            password: data?.password,
+        };
+
+        console.log(options);
+
+       fetchGetUser( options )
     };
     
     return (
@@ -34,28 +40,31 @@ const SignIn: React.FC = () => {
                     </TextWrapper>
                     <FormGroup>
                         <InputGroup>
-                            <InputField width={100}>
-                                <Label htmlFor={"email"}> Email *</Label>
-                                <Input 
-                                    autoComplete='none' 
-                                    placeholder='Ex: exemplo@exemplo.com'
-                                    {...register("email")}
-                                    type='text'
-                                    className='lg'
-                                />  
-                                <Error></Error>
-                            </InputField>
-                            <InputField width={100}>
-                                <Label htmlFor={"password"}> Password *</Label>
-                                <Input 
-                                    autoComplete='none' 
-                                    placeholder='Senha 8 ou mais caracteres'
-                                    {...register("password")}
-                                    type='password'
-                                    className='lg'
-                                />  
-                                <Error></Error>
-                            </InputField>
+                          
+                            <CustomInput
+                                register={register} 
+                                errors={errors}  
+                                maxL={60}
+                                placeholder='Ex: exemplo@exemplo.com'
+                                label='Email'
+                                name='email'
+                                type='text'
+                                required={true}
+                                className='lg'
+                            />  
+
+                            <CustomInput
+                                register={register} 
+                                errors={errors} 
+                                maxL={50} 
+                                placeholder='Senha'
+                                label='Password'
+                                name='password'
+                                type='password'
+                                required={true}
+                                className='lg'
+                            />  
+                          
                         </InputGroup>
                         <TextWrapper>Não tem uma conta, crie uma rapidamente <a href="/unsplash/createnew">Criar Conta</a></TextWrapper>
                         <CustomButton
