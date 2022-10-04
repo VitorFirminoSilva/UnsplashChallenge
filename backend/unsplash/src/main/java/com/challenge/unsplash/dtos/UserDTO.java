@@ -9,6 +9,9 @@ public class UserDTO {
     
     @NotBlank
     private String password;
+    
+    @NotBlank
+    private String name;
 
     public String getEmail() {
         return email;
@@ -25,4 +28,12 @@ public class UserDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }  
 }

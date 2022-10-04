@@ -24,8 +24,8 @@ public class UserService {
         return userRepository.findById(id);
     }
     
-    public Optional<User> findByEmailAndPassword(String email, String password){
-        return userRepository.findByEmailAndPassword(email, password);
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
     
     public boolean existsByEmail(String email){
