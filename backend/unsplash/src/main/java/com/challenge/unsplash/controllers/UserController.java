@@ -1,6 +1,5 @@
 package com.challenge.unsplash.controllers;
 
-import com.challenge.unsplash.dtos.LoginDTO;
 import com.challenge.unsplash.dtos.UserDTO;
 import com.challenge.unsplash.entities.User;
 import com.challenge.unsplash.services.UserService;
@@ -36,8 +35,8 @@ public class UserController {
     
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody @Valid UserDTO userDTO){
-        if(userService.existsByEmail(userDTO.getEmail())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: user email is already in use!");
+        if(userService.existsByUsername(userDTO.getUsername())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: user username is already in use!");
         }
         
         var userModel = new User();
@@ -45,21 +44,4 @@ public class UserController {
         userModel.setPassword(encoder.encode(userDTO.getPassword()));
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userModel));
     } 
-    
-    @PostMapping(value = "/login")
-    public ResponseEntity<Object> login(@RequestBody @Valid LoginDTO loginDTO){
-
-        if(!userService.existsByEmail(loginDTO.getEmail())){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Erro: user email is not valid!");
-        }
-
-        var userOptional = userService.findByEmail(loginDTO.getEmail());
-        
-        if(!encoder.matches(loginDTO.getPassword(), userOptional.get().getPassword())){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Erro: login error!");
-        }
-        
-        return ResponseEntity.status(HttpStatus.OK).body(userOptional.get());
-    } 
-  
 }

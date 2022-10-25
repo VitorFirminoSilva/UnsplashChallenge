@@ -1,12 +1,13 @@
 package com.challenge.unsplash.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "userApp")
+@Table(name = "user_app")
 public class User implements Serializable{
     private static final long serialVersionUID = 1L;
     
@@ -18,16 +19,17 @@ public class User implements Serializable{
     private String name;
     
     @Column(unique = true, nullable = false)
-    private String email;
+    private String username;
     
     @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     public User() {}
 
-    public User(Long id, String email, String password) {
+    public User(Long id, String username, String password) {
         this.id = id;
-        this.email = email;
+        this.username = username;
         this.password = password;
     }
 
@@ -47,15 +49,15 @@ public class User implements Serializable{
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -68,7 +70,7 @@ public class User implements Serializable{
     public int hashCode() {
         int hash = 5;
         hash = 97 * hash + Objects.hashCode(this.id);
-        hash = 97 * hash + Objects.hashCode(this.email);
+        hash = 97 * hash + Objects.hashCode(this.username);
         return hash;
     }
 
@@ -84,7 +86,7 @@ public class User implements Serializable{
             return false;
         }
         final User other = (User) obj;
-        if (!Objects.equals(this.email, other.email)) {
+        if (!Objects.equals(this.username, other.username)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
