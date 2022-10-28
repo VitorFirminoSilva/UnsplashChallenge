@@ -5,12 +5,11 @@ import com.challenge.unsplash.entities.Image;
 import com.challenge.unsplash.entities.User;
 import com.challenge.unsplash.services.ImageService;
 import com.challenge.unsplash.services.UserService;
+import com.challenge.unsplash.util.StringGeneration;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -27,7 +26,7 @@ public class ImageController {
     @Value("${local.path}")
     private String local_path;
 
-    private String folder = "uploads/";
+    private final String folder = "uploads/";
 
     final ImageService imageService;
     final UserService userService;
@@ -72,15 +71,24 @@ public class ImageController {
 
         try {
             if (!file.isEmpty()) {
+                
+                String contentType = StringGeneration.contentTypeImage(file.getOriginalFilename());
+                String imageName = StringGeneration.hashNameGeneration(32);
+                Optional<Image> imageOptional = imageService.findByImageURL(local_path + folder + imageName + "." +contentType);
+                while(imageOptional.isPresent()){
+                    imageName = local_path + folder + StringGeneration.hashNameGeneration(32);
+                    imageOptional = imageService.findByImageURL(local_path + folder + imageName + "."  + contentType);
+                }
+                
 
                 byte[] bytes = file.getBytes();
-                Path path = Paths.get(local_path + folder + file.getOriginalFilename());
+                Path path = Paths.get(local_path + folder + imageName + "."  + contentType);
                 Files.write(path, bytes);
 
                 var imageModel = new Image();
                 imageModel.setLabel(imageDTO.getLabel());
                 imageModel.setUser(userOptional.get());
-                imageModel.setImageURL(file.getOriginalFilename());
+                imageModel.setImageURL(imageName + "."  + contentType);
 
                 return ResponseEntity.status(HttpStatus.CREATED).body(imageService.save(imageModel));
 

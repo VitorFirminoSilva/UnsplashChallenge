@@ -41,7 +41,7 @@ public class JWTConfig{
 
     @Bean
     public PasswordEncoder encoderPassword() {
-        return new BCryptPasswordEncoder();
+       return new BCryptPasswordEncoder();
     }
 
     @Bean
