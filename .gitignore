@@ -216,3 +216,4 @@ documentacao/arquivos/Diagrama de Classes (astah)/*.asta.lock
 nodesource_setup.sh
 yarn.lock
 package-lock.json
+/backend/unsplash/src/main/java/com/challenge/unsplash/security/JWTProps.java
