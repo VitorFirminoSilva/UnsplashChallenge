@@ -4,10 +4,12 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.challenge.unsplash.details.UserDataDetails;
 import com.challenge.unsplash.entities.User;
+import com.challenge.unsplash.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +23,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
-    public JWTAuthFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;   
+    public JWTAuthFilter(AuthenticationManager authenticationManager, UserService userService) {
+        this.authenticationManager = authenticationManager; 
+        this.userService = userService;
     }
 
     @Override
@@ -46,11 +50,15 @@ public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
         
         String accessToken = createJWTToken(userData);
         
+        Optional<User> userOptional = userService.findByUsername(userData.getUsername());
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         
-        response.getWriter().write("\"access_token\":" + accessToken);
-        
+        String json = "{ 'token': " + accessToken + ", "
+                + "'user': { 'id': " + userOptional.get().getId() + ", 'username': "+ userOptional.get().getUsername() +"} }";
+      
+        response.getWriter().write(json);
     }
 
     @Override

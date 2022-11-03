@@ -1,6 +1,7 @@
 package com.challenge.unsplash.security;
 
 import com.challenge.unsplash.services.UserDetailServiceIMPL;
+import com.challenge.unsplash.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,12 +26,15 @@ public class JWTConfig{
     
     private final UserDetailServiceIMPL userDetailServiceIMPL;
     private final UserDetailsService userDetailsService;
+    
+    private final UserService userService;
 
-    public JWTConfig(UserDetailServiceIMPL userDetailServiceIMPL, UserDetailsService userDetailsService) {
+    public JWTConfig(UserDetailServiceIMPL userDetailServiceIMPL, UserDetailsService userDetailsService, UserService userService) {
         this.userDetailServiceIMPL = userDetailServiceIMPL;
         this.userDetailsService = userDetailsService;
+        this.userService = userService;
     }
-    
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -82,7 +86,7 @@ public class JWTConfig{
         @Override
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager auth = builder.getSharedObject(AuthenticationManager.class);
-            builder.addFilter(new JWTAuthFilter(auth))
+            builder.addFilter(new JWTAuthFilter(auth, userService))
             .addFilter(new JWTValidateFilter(auth));
         } 
     }
