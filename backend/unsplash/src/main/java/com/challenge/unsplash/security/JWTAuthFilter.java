@@ -14,6 +14,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -55,9 +56,9 @@ public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         
-        String json = "{ 'token': " + accessToken + ", "
-                + "'user': { 'id': " + userOptional.get().getId() + ", 'username': "+ userOptional.get().getUsername() +"} }";
-      
+        String json = "{ \"token\": \"" + accessToken +"\", "
+                + "\"user\": { \"id\": "+ userOptional.get().getId() + ", \"username\": \""+ userOptional.get().getUsername() +"\"}}";
+        
         response.getWriter().write(json);
     }
 
