@@ -10,14 +10,13 @@ import { api } from '../services/axios';
 import { ResponseError } from '../errors/ResponseError';
 
 interface ICredentials {
-    email: string;
+    username: string;
     password: string;
 }
 
 interface IUser {
     id: number;
-    level: number;
-    name: string;
+    username: string;
 }
 
 interface IAuthState {
@@ -36,13 +35,13 @@ interface ApiSessionRequest {
     user: IUser;
 }
 
-interface AuthProvider {
-    children : any;
+interface Prop{
+    children: React.ReactNode,
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
-const AuthProvider: React.FC<AuthProvider> = ({ children }) => {
+const AuthProvider: React.FC<Prop> = ({ children }) => {
     const [data, setData] = useState<IAuthState>(() => {
         // Carrega os tokens do localStorage e seta os valores do Provider
         const token = localStorage.getItem('@token');
@@ -61,10 +60,9 @@ const AuthProvider: React.FC<AuthProvider> = ({ children }) => {
     });
 
     const signIn = useCallback(async (credentials: ICredentials) => {
-        //console.log('Logando');
-        //console.log('[Auth Hook] Realizando o login');
-        const res = await api.post<ApiSessionRequest>('/sessions', {
-            email: credentials.email,
+        console.log('[Auth Hook] Realizando o login');
+        const res = await api.post<ApiSessionRequest>('/login', {
+            username: credentials.username,
             password: credentials.password,
         });
 
@@ -95,7 +93,7 @@ const AuthProvider: React.FC<AuthProvider> = ({ children }) => {
 
         // console.log(data);
 
-        api.get('/sessions/validate')
+        api.get('/validate')
             .then(() => {
                 console.log('[Auth Hook] Logado');
             })
