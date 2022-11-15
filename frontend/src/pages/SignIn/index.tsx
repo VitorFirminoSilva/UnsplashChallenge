@@ -10,6 +10,7 @@ import { SubmitHandler, FormHandles } from '@unform/core';
 import Input from '../../components/Input';
 import CustomButton from '../../components/Button';
 import { useAuth } from '../../hooks/auth';
+import { Box, Container, FormGroup, InputGroup, Label, Link, Title } from './styled';
 
 interface FormData {
     email: string;
@@ -65,20 +66,41 @@ const SignIn: React.FC = () => {
     };
 
     return (
-        <>
-            <h1>SignIn</h1>
+      
+        <Container>
+            <Box>
+                <Title>SignIn</Title>
 
-            <Form ref={formRef} onSubmit={onSubmit}>
-                <Input type="email" name="email" label="Email" />
-                <Input type="password" name="password" label="Password" />
-                <CustomButton
-                    type="submit"
-                    style={{ backgroundColor: 'lightblue' }}
-                >
-                    Entrar
-                </CustomButton>
-            </Form>
-        </>
+                <Form ref={formRef} onSubmit={onSubmit}>
+                    <FormGroup>
+                        <InputGroup>
+                            <Input type="email" name="email" label="Email" />
+                            <Input type="password" name="password" label="Password" />
+                        </InputGroup>
+
+                        <InputGroup>
+                            <Label>Não tem usuário, click no botão a baixo:</Label>
+                            <Link
+                                    href='unsplash/signup'
+                                   
+                                >
+                                    Cadastrar Usuário
+                            </Link>
+                        </InputGroup>
+                        
+
+                    
+                        <CustomButton
+                            type="submit"
+                            style={{ backgroundColor: 'lightblue' }}
+                        >
+                            Entrar
+                        </CustomButton>
+                    </FormGroup>
+                </Form>
+            </Box>
+        </Container>
+       
     );
 };
 

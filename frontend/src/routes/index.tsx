@@ -6,8 +6,8 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 
 const Private = () => {
-    const signed = useAuth();
-    return signed ? <Home /> : <SignIn />;
+    const { user } = useAuth();
+    return user ? <Home /> : <SignIn />;
 }
 
 const RoutesApp = () => {
