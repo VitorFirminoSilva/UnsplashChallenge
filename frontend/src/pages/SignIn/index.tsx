@@ -10,7 +10,7 @@ import { SubmitHandler, FormHandles } from '@unform/core';
 import Input from '../../components/Input';
 import CustomButton from '../../components/Button';
 import { useAuth } from '../../hooks/auth';
-import { Box, Container, FormGroup, InputGroup, Label, Link, Title } from './styled';
+import { Box, Container, FormGroup, InputGroup, Label, Link, Title } from './../../components/BoxGroup/styled';
 
 interface FormData {
     email: string;

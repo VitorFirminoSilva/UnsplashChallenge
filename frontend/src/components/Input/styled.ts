@@ -12,7 +12,6 @@ export const ContainerInput = styled.div`
         background-color: #fff;
         width: 100%;
         min-height: 3.8rem;
-        max-width: 300px;
 
         border: 2px solid lightgray;
         border-radius: 6px;
