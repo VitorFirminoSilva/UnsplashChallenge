@@ -57,7 +57,7 @@ public class JWTAuthFilter extends UsernamePasswordAuthenticationFilter {
         response.setCharacterEncoding("UTF-8");
         
         String json = "{ \"token\": \"" + accessToken +"\", "
-                + "\"user\": { \"id\": "+ userOptional.get().getId() + ", \"username\": \""+ userOptional.get().getUsername() +"\"}}";
+                + "\"user\": { \"id\": "+ userOptional.get().getId() + ", \"username\": \""+ userOptional.get().getUsername() + "\", \"name\": \""+ userOptional.get().getName() +"\"}}";
         
         response.getWriter().write(json);
     }

@@ -72,7 +72,7 @@ public class JWTConfig{
                 
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/create").permitAll()
+                .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .antMatchers(HttpMethod.GET, "/validate").authenticated()
                 .anyRequest().authenticated()
                 .and()
