@@ -43,7 +43,7 @@ const SignIn: React.FC = () => {
 
             await signIn({ username: data.email, password: data.password });
 
-            navigate('/');
+            navigate('/home');
         } catch (err) {
 
             if (err instanceof Yup.ValidationError) {
@@ -81,7 +81,7 @@ const SignIn: React.FC = () => {
                         <InputGroup>
                             <Label>Não tem usuário, click no botão a baixo:</Label>
                             <Link
-                                    href='unsplash/signup'
+                                    href='/unsplash/signup'
                                    
                                 >
                                     Cadastrar Usuário

@@ -42,11 +42,11 @@ const SignUp: React.FC = () => {
 
             const request_data = {
                 name: data.name,
-                email: data.email,
+                username: data.email,
                 password: data.password,      
             };
 
-            await api.post('/user/', request_data);
+            await api.post('/user', request_data);
             navigate('/');
         } catch (err) {
 
