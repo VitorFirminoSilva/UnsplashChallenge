@@ -79,7 +79,7 @@ const Home: React.FC = () => {
             >
                 <Form ref={formRef} onSubmit={onSubmit}>
                     <ModalHeader>
-                        <h2>Congratulation, you won!!!</h2>
+                        <h2>New Image</h2>
                         <GroupRow>
                             <CustomButton
                                 type="submit"

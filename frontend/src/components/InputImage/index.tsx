@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState, ChangeEventHandler } from "react";
 import { useField } from "@unform/core";
-import { Input, Label, Span } from "./styled";
+import { Image, Input, Label } from "./styled";
 
 
 export interface Props {
@@ -9,6 +9,8 @@ export interface Props {
 }
 
 const InputImage: React.FC<Props> = ({name, allowNegative, ...rest}) => {
+
+    const [image, setImage] = useState<File | null>(null);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const {fieldName, defaultValue, registerField, error} = useField(name);
@@ -31,6 +33,12 @@ const InputImage: React.FC<Props> = ({name, allowNegative, ...rest}) => {
 
     }, [fieldName, registerField]);
 
+
+    const changeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files) return
+        setImage(event.target.files[0]);
+    }
+
     return (
         <>
            <Label htmlFor={fieldName} tabIndex={0}>
@@ -42,9 +50,10 @@ const InputImage: React.FC<Props> = ({name, allowNegative, ...rest}) => {
                     max={1} 
                     type="file"
                     accept=".png,.jpeg,.jpg"
+                    onChange={changeContent}
                     {...rest}
                 />
-                <Span>Choose an image</Span>
+                <span>{image ? <Image src={URL.createObjectURL(image)} alt="Input Image" /> : "Choose an image" }</span>
             </Label>
         </>
     );

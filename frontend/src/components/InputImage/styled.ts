@@ -4,6 +4,7 @@ import styled from 'styled-components';
 export const Label = styled.label`
     width: 100%;
     height: 100%;
+
     background-color: #eee;
     display: flex;
     align-items: center;
@@ -24,7 +25,8 @@ export const Input = styled.input`
 
 `;
 
-export const Span = styled.span`
-
-
+export const Image = styled.img`
+    width: 100%;
+    height: 100%;
 `;
+
