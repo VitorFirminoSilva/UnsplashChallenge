@@ -67,6 +67,13 @@ export const Box = styled.div`
 export const InputGroup = styled.div`
     display: flex;
     flex-direction: column; 
+    gap: 5px;
+`;
+
+export const GroupRow = styled.div`
+    display: flex;
+    flex-direction: row; 
+    gap: 5px;
 `;
 
 export const FormGroup = styled.div`
