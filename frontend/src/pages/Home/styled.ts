@@ -86,8 +86,8 @@ export const ModalHeader = styled.div`
 /* Modal Body */
 export const ModalBody = styled.div`
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    align-items: flex-start;
     height: 100%;
     padding: 10px 20px;
 `;
