@@ -6,13 +6,17 @@ import { GroupRow, InputGroup } from '../../components/BoxGroup/styled';
 import CustomButton from '../../components/Button';
 import InputImage from '../../components/InputImage';
 import { useAuth } from '../../hooks/auth';
+import * as Yup from 'yup';
 
-import { Container, Header, HomeLink, InputHome, ModalBody, ModalHeader, Navbar, Navigation, NavItem } from './styled';
+import { Container, Header, HomeLink, InputHome, ModalBody, ModalHeader, Navbar, Navigation} from './styled';
 import Input from '../../components/Input';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../../services/axios';
+import getValidationError from '../../errors/getValidationErrors';
 
 interface FormData{
-    image: string;
-    label: string;
+    image: File;
+    title: string;
 }
 
 Modal.setAppElement("#root");
@@ -20,6 +24,10 @@ Modal.setAppElement("#root");
 const Home: React.FC = () => {
 
     const formRef = useRef<FormHandles>(null);
+
+    const navigate  = useNavigate();
+
+    const [fileImage, setFile] = useState<File | null>(null);
 
     const { user } = useAuth();
 
@@ -35,7 +43,45 @@ const Home: React.FC = () => {
     };
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
-        console.log(data);
+        try {
+            formRef.current?.setErrors({});
+
+            const schema = Yup.object().shape({
+                title: Yup.string()
+                    .required('o Título é obrigatório'),
+                image: Yup.mixed().required('Image é obrigatória'),
+            });
+
+            await schema.validate(data, {
+                abortEarly: false,
+            });
+
+
+            //Isso é gambi tem que arrumar
+            const request_data = {
+                idUser: user?.id,
+                label: data.title, 
+                file: fileImage
+            };
+
+            await api.post('/images', request_data, { 
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
+            });
+           
+            setIsOpen(false);
+        } catch (err) {
+
+            if (err instanceof Yup.ValidationError) {
+                const erros = getValidationError(err);
+
+                formRef.current?.setErrors(erros);
+
+                return;
+            }
+        
+        }
     };
 
 
@@ -97,10 +143,8 @@ const Home: React.FC = () => {
                         </GroupRow>
                     </ModalHeader>
                     <ModalBody>
-                        
-                            <InputImage name='image'/>
-                    
                             <Input type='text' name='title' label='Title' />
+                            <InputImage setFile={setFile}  name='image'/>
                     </ModalBody>
                 </Form>
             </Modal>

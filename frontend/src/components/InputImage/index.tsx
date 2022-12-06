@@ -6,14 +6,14 @@ import { Image, Input, Label } from "./styled";
 export interface Props {
     name: string;
     allowNegative?: boolean;
+    setFile: Function;
 }
 
-const InputImage: React.FC<Props> = ({name, allowNegative, ...rest}) => {
-
-    const [image, setImage] = useState<File | null>(null);
-
+const InputImage: React.FC<Props> = ({name, setFile, allowNegative, ...rest}) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const {fieldName, defaultValue, registerField, error} = useField(name);
+
+    const [image, setImage] = useState<File | null>(null);
 
     useEffect(() => {
 
@@ -37,6 +37,7 @@ const InputImage: React.FC<Props> = ({name, allowNegative, ...rest}) => {
     const changeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return
         setImage(event.target.files[0]);
+        setFile(event.target.files[0]);
     }
 
     return (

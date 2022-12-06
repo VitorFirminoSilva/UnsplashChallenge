@@ -16,8 +16,8 @@ const RoutesApp = () => {
  
             <Fragment>
                 <Routes>
-                    {/* <Route path="/home" element={<Private />}/> */}
-                    <Route path="/home" element={<Home />}/>
+                    <Route path="/home" element={<Private />}/>
+                   
                     <Route path="/" element={<SignIn/>}/>
                     <Route path="/signup" element={<SignUp/>}/>
                     <Route path="*" element={<SignIn/>}/>
