@@ -2,12 +2,14 @@ package com.challenge.unsplash.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,11 +36,18 @@ public class JWTValidateFilter extends BasicAuthenticationFilter{
         }
         
         String token = attribute.replace(JWTProps.ATTRIBUTE_PREFIX, "");
-        
-        UsernamePasswordAuthenticationToken authenticationToken = getAuthenticationToken(token);
+        try{
+            UsernamePasswordAuthenticationToken authenticationToken = getAuthenticationToken(token);
 
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        chain.doFilter(request, response);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        
+            chain.doFilter(request, response);
+        }catch(TokenExpiredException ex){
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("ValidateTokenFailureException");
+        } 
     }
     
     private UsernamePasswordAuthenticationToken getAuthenticationToken(String token){

@@ -62,17 +62,21 @@ public class ImageController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid ImageDTO imageDTO,
-            @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Object> create(@Valid ImageDTO imageDTO) {
         Optional<User> userOptional = userService.findById(imageDTO.getIdUser());
         if (!userOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
 
         try {
-            if (!file.isEmpty()) {
+            if (!imageDTO.getFile().isEmpty()) {
                 
-                String contentType = StringGeneration.contentTypeImage(file.getOriginalFilename());
+                String contentType = StringGeneration.contentTypeImage(imageDTO.getFile().getOriginalFilename());
+                
+                if(!contentType.equals("png") && !contentType.equals("jpeg") && !contentType.equals("jpg")){
+                    return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("File dont's a image type");
+                }
+                
                 String imageName = StringGeneration.hashNameGeneration(32);
                 Optional<Image> imageOptional = imageService.findByImageURL(local_path + folder + imageName + "." +contentType);
                 while(imageOptional.isPresent()){
@@ -81,7 +85,7 @@ public class ImageController {
                 }
                 
 
-                byte[] bytes = file.getBytes();
+                byte[] bytes = imageDTO.getFile().getBytes();
                 Path path = Paths.get(local_path + folder + imageName + "."  + contentType);
                 Files.write(path, bytes);
 
