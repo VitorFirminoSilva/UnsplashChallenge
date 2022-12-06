@@ -61,7 +61,6 @@ const AuthProvider: React.FC<Prop> = ({ children }) => {
     });
 
     const signIn = useCallback(async (credentials: ICredentials) => {
-        console.log('[Auth Hook] Realizando o login');
         const res = await api.post<ApiSessionRequest>('/login', {
             username: credentials.username,
             password: credentials.password,
@@ -78,8 +77,6 @@ const AuthProvider: React.FC<Prop> = ({ children }) => {
     }, []);
 
     const signOut = useCallback(() => {
-        //console.log('Deslogando');
-
         localStorage.removeItem('@token');
         localStorage.removeItem('@user');
 
@@ -87,13 +84,9 @@ const AuthProvider: React.FC<Prop> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        //console.log('[Auth Hook] Verificando login');
         if (!data.token) {
             return;
         }
-
-        // console.log(data);
-
         api.get('/validate')
             .then(() => {
                 console.log('[Auth Hook] Logado');
