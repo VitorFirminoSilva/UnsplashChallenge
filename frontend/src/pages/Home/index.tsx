@@ -4,7 +4,6 @@ import { SubmitHandler, FormHandles } from '@unform/core';
 import Modal from 'react-modal';
 import { GroupRow, InputGroup } from '../../components/BoxGroup/styled';
 import CustomButton from '../../components/Button';
-import InputImage from '../../components/InputImage';
 import { useAuth } from '../../hooks/auth';
 import * as Yup from 'yup';
 
@@ -13,6 +12,8 @@ import Input from '../../components/Input';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/axios';
 import getValidationError from '../../errors/getValidationErrors';
+import FileUpload from '../../components/FileUpload';
+import { UnexpectedError } from '../../errors/UnexpectedError';
 
 interface FormData{
     image: File;
@@ -24,8 +25,6 @@ Modal.setAppElement("#root");
 const Home: React.FC = () => {
 
     const formRef = useRef<FormHandles>(null);
-
-    const navigate  = useNavigate();
 
     const [fileImage, setFile] = useState<File | null>(null);
 
@@ -56,8 +55,10 @@ const Home: React.FC = () => {
                 abortEarly: false,
             });
 
+            if(fileImage === null)
+                throw new UnexpectedError("Não foi selecionada nenhuma imagem");
 
-            //Isso é gambi tem que arrumar
+           
             const request_data = {
                 idUser: user?.id,
                 label: data.title, 
@@ -70,7 +71,7 @@ const Home: React.FC = () => {
                 }
             });
            
-            setIsOpen(false);
+            closeModal();
         } catch (err) {
 
             if (err instanceof Yup.ValidationError) {
@@ -144,7 +145,7 @@ const Home: React.FC = () => {
                     </ModalHeader>
                     <ModalBody>
                             <Input type='text' name='title' label='Title' />
-                            <InputImage setFile={setFile}  name='image'/>
+                            <FileUpload name='image' file={fileImage} setFile={setFile} />
                     </ModalBody>
                 </Form>
             </Modal>

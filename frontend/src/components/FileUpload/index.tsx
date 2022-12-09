@@ -5,15 +5,13 @@ import { Image, Input, Label } from "./styled";
 
 export interface Props {
     name: string;
-    allowNegative?: boolean;
+    file: File | null;
     setFile: Function;
 }
 
-const InputImage: React.FC<Props> = ({name, setFile, allowNegative, ...rest}) => {
+const FileUpload: React.FC<Props> = ({name, file, setFile, ...rest}) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const {fieldName, defaultValue, registerField, error} = useField(name);
-
-    const [image, setImage] = useState<File | null>(null);
 
     useEffect(() => {
 
@@ -36,7 +34,6 @@ const InputImage: React.FC<Props> = ({name, setFile, allowNegative, ...rest}) =>
 
     const changeContent = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return
-        setImage(event.target.files[0]);
         setFile(event.target.files[0]);
     }
 
@@ -54,10 +51,10 @@ const InputImage: React.FC<Props> = ({name, setFile, allowNegative, ...rest}) =>
                     onChange={changeContent}
                     {...rest}
                 />
-                <span>{image ? <Image src={URL.createObjectURL(image)} alt="Input Image" /> : "Choose an image" }</span>
+                <span>{file ? <Image src={URL.createObjectURL(file)} alt="Input Image" /> : "Choose an image" }</span>
             </Label>
         </>
     );
 };
 
-export default InputImage;
+export default FileUpload;

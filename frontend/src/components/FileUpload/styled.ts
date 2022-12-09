@@ -27,7 +27,7 @@ export const Input = styled.input`
 
 export const Image = styled.img`
     width: 100%;
-    aspect-ratio: 16/9;
+    max-height: 250px;
     
 `;
 
