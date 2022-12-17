@@ -2,20 +2,19 @@ import { Form } from '@unform/web';
 import React, { useRef, useState } from 'react';
 import { SubmitHandler, FormHandles } from '@unform/core';
 import Modal from 'react-modal';
-import { GroupRow, InputGroup } from '../../components/BoxGroup/styled';
+import { GroupRow } from '../../components/BoxGroup/styled';
 import CustomButton from '../../components/Button';
 import { useAuth } from '../../hooks/auth';
 import * as Yup from 'yup';
 
-import { Container, Header, HomeLink, InputHome, ModalBody, ModalHeader, Navbar, Navigation} from './styled';
+import { Container, Header, HomeLink, InputHome, ModalBody, ModalHeader, Navbar, Navigation, Page } from './styled';
 import Input from '../../components/Input';
-import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/axios';
 import getValidationError from '../../errors/getValidationErrors';
 import FileUpload from '../../components/FileUpload';
 import { UnexpectedError } from '../../errors/UnexpectedError';
 
-interface FormData{
+interface FormData {
     image: File;
     title: string;
 }
@@ -36,7 +35,7 @@ const Home: React.FC = () => {
         setIsOpen(true);
     };
 
-    
+
     const closeModal = () => {
         setIsOpen(false);
     };
@@ -55,22 +54,22 @@ const Home: React.FC = () => {
                 abortEarly: false,
             });
 
-            if(fileImage === null)
+            if (fileImage === null)
                 throw new UnexpectedError("Não foi selecionada nenhuma imagem");
 
-           
+
             const request_data = {
                 idUser: user?.id,
-                label: data.title, 
+                label: data.title,
                 file: fileImage
             };
 
-            await api.post('/images', request_data, { 
+            await api.post('/images', request_data, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 }
             });
-           
+
             closeModal();
         } catch (err) {
 
@@ -81,45 +80,49 @@ const Home: React.FC = () => {
 
                 return;
             }
-        
+
         }
     };
 
 
     return (
-        <Container>
-            <Header>
-                <Navbar>
-                    <HomeLink href="/home">Unsplash</HomeLink>
-                    <InputHome type="text" name="search" placeholder='Search Images...'/>
-                    <Navigation>
-                        <li>
-                            <CustomButton
-                                type="button"
-                                style={{ backgroundColor: 'lightgreen' }}
-                                onClick={openModal}
-                            >
-                                New Image
 
-                            </CustomButton>
-                        </li>
-                        
-                        <li>
-                            <CustomButton
-                                type="button"
-                                style={{ backgroundColor: 'lightcoral' }}
-                            >
-                                Signout
-                            </CustomButton>
-                        </li>
-                    </Navigation>
-                </Navbar>
-            </Header>
+        <Page>
+            <Container>
+                <Header>
+                    <Navbar>
+                        <HomeLink href="/home">Unsplash</HomeLink>
+                        <InputHome type="text" name="search" placeholder='Search Images...' />
+                        <Navigation>
+                            <li>
+                                <CustomButton
+                                    type="button"
+                                    style={{ backgroundColor: 'lightgreen' }}
+                                    onClick={openModal}
+                                >
+                                    New Image
 
-            <Modal 
-                
+                                </CustomButton>
+                            </li>
+
+                            <li>
+                                <CustomButton
+                                    type="button"
+                                    style={{ backgroundColor: 'lightcoral' }}
+                                >
+                                    Signout
+                                </CustomButton>
+                            </li>
+                        </Navigation>
+                    </Navbar>
+                </Header>
+            </Container>
+
+
+            <Modal
+
                 isOpen={modalIsOpen}
-               
+
                 contentLabel="Test Modal"
                 overlayClassName="modal-overlay"
                 className="modal-content"
@@ -144,12 +147,12 @@ const Home: React.FC = () => {
                         </GroupRow>
                     </ModalHeader>
                     <ModalBody>
-                            <Input type='text' name='title' label='Title' />
-                            <FileUpload name='image' file={fileImage} setFile={setFile} />
+                        <Input type='text' name='title' label='Title' />
+                        <FileUpload name='image' file={fileImage} setFile={setFile} />
                     </ModalBody>
                 </Form>
             </Modal>
-        </Container>
+        </Page>
     );
 
 };

@@ -1,17 +1,25 @@
 import styled from 'styled-components';
 
 
+export const Page = styled.div`
+    display: flex;
+    margin: auto;
+    width: 99vw;
+    height: 100vh;
+    overflow: auto;
+`;
+
 export const Container = styled.div`  
     display: flex;
     flex-direction: column;
-    margin: 0 20px;
+    margin: 0 10px;
+    width: 100%;
 `;
-
 
 export const Header = styled.header`
     display: flex;
+    width: 100%;
     justify-content: center;
-    
 `;
 
 export const Navbar = styled.div`
@@ -19,23 +27,27 @@ export const Navbar = styled.div`
     justify-content: space-between;
     gap: 10px;
     align-items: center;
-    width: 95%;
-    margin: 2px auto;
-    padding: 10px 10px;
-    position: fixed;
+    width: 100%;
+    padding: 10px 0;
 `;
 
 
 export const HomeLink = styled.a`
     font-size: 2.4rem;
-    padding: 15px 2rem;
+    padding: 15px 1rem;
     text-decoration: none;
 `;
 
 export const Navigation = styled.ul`
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
+    width: 100%;
+    max-width: 230px;
+
+    li{
+        width: 100%;
+    }
 `;
 
 export const NavItem = styled.a`

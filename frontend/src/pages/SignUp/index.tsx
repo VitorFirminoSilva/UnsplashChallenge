@@ -4,7 +4,7 @@ import { SubmitHandler, FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Box, Container, FormGroup, InputGroup, Title } from '../../components/BoxGroup/styled';
+import {  Container, FormGroup, InputGroup, Title } from '../../components/BoxGroup/styled';
 import CustomButton from '../../components/Button';
 import Input from '../../components/Input';
 import getValidationError from '../../errors/getValidationErrors';

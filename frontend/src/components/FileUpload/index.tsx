@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, ChangeEventHandler } from "react";
+import React, { useRef, useEffect } from "react";
 import { useField } from "@unform/core";
 import { Image, Input, Label } from "./styled";
 
@@ -11,7 +11,7 @@ export interface Props {
 
 const FileUpload: React.FC<Props> = ({name, file, setFile, ...rest}) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const {fieldName, defaultValue, registerField, error} = useField(name);
+    const {fieldName, defaultValue, registerField} = useField(name);
 
     useEffect(() => {
 
