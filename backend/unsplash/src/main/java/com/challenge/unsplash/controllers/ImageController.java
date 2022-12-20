@@ -12,6 +12,7 @@ import java.nio.file.*;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +38,12 @@ public class ImageController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Object> findByUser(@PathVariable(value = "userId") Long id) {
+    public ResponseEntity<Object> findByUser(@PathVariable(value = "userId") Long id, Pageable pageable) {
         Optional<User> userOptional = userService.findById(id);
         if (!userOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(imageService.findByUser(userOptional.get()));
+        return ResponseEntity.status(HttpStatus.OK).body(imageService.findByUser(pageable, userOptional.get()));
     }
 
     @GetMapping(value = "/uploads/{imageURL}", produces = MediaType.IMAGE_JPEG_VALUE)

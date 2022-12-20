@@ -5,6 +5,8 @@ import com.challenge.unsplash.entities.User;
 import com.challenge.unsplash.repositories.ImageRepository;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +23,8 @@ public class ImageService {
         return imageRepository.findAll();
     }
     
-    public List<Image> findByUser(User user){
-        return imageRepository.findByUser(user);
+    public Page<Image> findByUser(Pageable page, User user){
+        return imageRepository.findByUser(page, user);
     }
     
     public Optional<Image> findById(Long id){
