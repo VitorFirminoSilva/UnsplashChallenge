@@ -12,6 +12,7 @@ import java.nio.file.*;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,7 +44,10 @@ public class ImageController {
         if (!userOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(imageService.findByUser(pageable, userOptional.get()));
+        
+        Page<Image> pageTemp = imageService.findByUser(pageable, userOptional.get());
+        
+        return ResponseEntity.status(HttpStatus.OK).body(pageTemp.get());
     }
 
     @GetMapping(value = "/uploads/{imageURL}", produces = MediaType.IMAGE_JPEG_VALUE)

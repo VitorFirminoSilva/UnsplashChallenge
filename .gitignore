@@ -223,3 +223,4 @@ package-lock.json
 backend/uploads/*.jpg
 backend/uploads/*.jpeg
 backend/uploads/*.png
+frontend/src/images/
