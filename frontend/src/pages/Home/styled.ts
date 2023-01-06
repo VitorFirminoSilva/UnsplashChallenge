@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ROOTS from '../../constants/ROOTS';
 
 
 export const Page = styled.div`
@@ -81,6 +82,71 @@ export const InputHome = styled.input`
     &:focus{
         border: 2px solid #777;
     }
+`;
+
+
+export const ErrorMessageContainer = styled.div`
+    p {
+        color : red;
+        font-weight: bold;
+        padding: 1.6rem 0.8rem;
+    }
+`;
+
+
+export const ImageContainer = styled.div`
+    -webkit-column-count: ${ROOTS.columnCount_6};
+    -moz-column-count: ${ROOTS.columnCount_6};
+    column-count: ${ROOTS.columnCount_6};
+    -webkit-column-width: ${ROOTS.porcentageCount_6};
+    -moz-column-width: ${ROOTS.porcentageCount_6};
+    column-width: ${ROOTS.porcentageCount_6};
+    padding: 0 12px; 
+
+    @media screen and (max-width: 1440px){
+        -webkit-column-count: ${ROOTS.columnCount_5};
+        -moz-column-count: ${ROOTS.columnCount_5};
+        column-count: ${ROOTS.columnCount_5};
+        -webkit-column-width: ${ROOTS.porcentageCount_5};
+        -moz-column-width: ${ROOTS.porcentageCount_5};
+        column-width: ${ROOTS.porcentageCount_5}; 
+    }
+    
+    @media screen and (max-width: 1024px){
+        -webkit-column-count: ${ROOTS.columnCount_4};
+        -moz-column-count: ${ROOTS.columnCount_4};
+        column-count: ${ROOTS.columnCount_4};
+        -webkit-column-width: ${ROOTS.porcentageCount_4};
+        -moz-column-width: ${ROOTS.porcentageCount_4};
+        column-width: ${ROOTS.porcentageCount_4}; 
+    }
+
+    @media screen and (max-width: 768px){
+        -webkit-column-count: ${ROOTS.columnCount_3};
+        -moz-column-count: ${ROOTS.columnCount_3};
+        column-count: ${ROOTS.columnCount_3};
+        -webkit-column-width: ${ROOTS.porcentageCount_3};
+        -moz-column-width: ${ROOTS.porcentageCount_3};
+        column-width: ${ROOTS.porcentageCount_3}; 
+    }
+
+    @media screen and (max-width: 675px){
+        -webkit-column-count: ${ROOTS.columnCount_2};
+        -moz-column-count: ${ROOTS.columnCount_2};
+        column-count: ${ROOTS.columnCount_2};
+        -webkit-column-width: ${ROOTS.porcentageCount_2};
+        -moz-column-width: ${ROOTS.porcentageCount_2};
+        column-width: ${ROOTS.porcentageCount_2}; 
+    }
+
+    @media screen and (max-width: 395px){
+        -webkit-column-count: ${ROOTS.columnCount_1};
+        -moz-column-count: ${ROOTS.columnCount_1};
+        column-count: ${ROOTS.columnCount_1};
+        -webkit-column-width: ${ROOTS.porcentageCount_1};
+        -moz-column-width: ${ROOTS.porcentageCount_1};
+        column-width: ${ROOTS.porcentageCount_1}; 
+    } 
 `;
 
 
