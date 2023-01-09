@@ -15,12 +15,7 @@ export const fetchManyImage = (
 ): Promise<{images: Image[]; totalCount: number}> => {
     return new Promise((resolve, reject) => {
 
-        const params = {
-            page: options?.page,
-            size: options?.size
-        };
-
-        api.get<Image[]>(`/images/${userId}`)
+        api.get<Image[]>(`/images/${userId}?page=${options?.page}&size=${options?.size}`)
         .then(( response ) => {
 
             if(response){
