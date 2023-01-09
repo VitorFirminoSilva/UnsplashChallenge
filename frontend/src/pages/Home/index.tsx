@@ -31,14 +31,17 @@ const Home: React.FC = () => {
 
     const formRef = useRef<FormHandles>(null);
 
-    const [imageList, setImages] = useState<Image[]>();
+    const [imageList, setImages] = useState<Image[]>([]);
 
     const [fileImage, setFile] = useState<File | null>(null);
+    const [addImage, setAddImage] = useState(false);
 
     const { user } = useAuth();
 
+
+    const numPage = 20;
     const [currentPage, setCurrentPage] = useState(0);
-    const [sizePage, setSizePage] = useState(10);
+    const [sizePage, setSizePage] = useState(numPage);
 
     const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -52,17 +55,10 @@ const Home: React.FC = () => {
         setIsOpen(false);
     };
 
-    const imagesPlaceholder = [
-        "1366_768_01009986.jpg",
-        "1366_768_01035838.jpg",
-        "Hydrangeas.jpg",
-        "Toplose.png",
-        "1366_768_01035838.jpg",
-        "Hydrangeas.jpg"
-    ];
-
     useEffect(() => {
         const source = createCancelTokenSource();
+        setCurrentPage(0);
+        let loadPage = false;
         
         if(user){
             
@@ -72,8 +68,10 @@ const Home: React.FC = () => {
                     page: currentPage, 
                     size: sizePage
                 }
-            ).then((result) => {
-                setImages(result.images);
+            ).then((result) => {   
+                if(!loadPage){  
+                    setImages(result.images);
+                }
             }).catch((err) => {
                 let message = err.message;
                 if (err instanceof ResponseError && err.status === 404){
@@ -83,8 +81,32 @@ const Home: React.FC = () => {
             });
         }
 
-        return () => source.cancel();
-    }, [imageList]);
+        return () => { 
+            loadPage = true;
+            source.cancel();
+        }
+    }, [user, currentPage, sizePage]);
+
+    
+
+    useEffect(() => {
+        const handlerScroll = (e: any) => {
+            if(e.target){
+                const scrollHeight = e.target.scrollHeight;
+                const currentHeight = e.target.scrollTop + window.innerHeight;
+                if(currentHeight + 1 >= scrollHeight){ 
+                    setSizePage(sizePage + numPage);
+                }  
+            }
+        }
+ 
+        window.addEventListener('scroll', handlerScroll, {capture: true});
+
+        return () =>{ 
+           
+            window.removeEventListener('scroll', handlerScroll, {capture: true});
+        }
+    }, [sizePage]);
 
     const onSubmit: SubmitHandler<FormData> = async (data) => {
         try {
@@ -116,6 +138,7 @@ const Home: React.FC = () => {
                 }
             });
 
+            setAddImage(!addImage);
             closeModal();
         } catch (err) {
 
@@ -135,40 +158,24 @@ const Home: React.FC = () => {
         api.delete(`/images/${id}`)
         .then((response) => {
             if(imageList && imageList.length > 0){
-                let imageRemove = imageList.find((element) =>{
+                let imageRemove = imageList.find((element) => {
                     if(element.id === id){
                         return element;
                     }
+                    return null;
                 });
     
                 const listTemp = [...imageList];
-                if(imageRemove != undefined){
-                    listTemp.filter((element) => element != imageRemove);
+                if(imageRemove !== undefined){
+                    listTemp.filter((element) => element !== imageRemove);
     
                     setImages(listTemp);
                 }  
             }
         }).catch((err) => {
             setError(err.message);
-        })
-        
-
-        /*if(imageList && imageList.length > 0){
-            let imageRemove = imageList.find((element) =>{
-                if(element.idImage === id){
-                    return element;
-                }
-            });
-
-            const listTemp = [...imageList];
-            if(imageRemove != undefined){
-                listTemp.filter((element) => element != imageRemove);
-
-                setImages(listTemp);
-            }  
-        }*/
+        }) 
     };
-
 
     return (
 
@@ -212,15 +219,8 @@ const Home: React.FC = () => {
                                 <CardImage key={index} idImage={image.id} deleteHandler={deleteImage} label={image.label} urlImage={`http://localhost:8080/images/uploads/${image.imageURL}`} /> 
                             );
                         })
-                    ) /*: imagesPlaceholder.length > 0 ? (
-                        imagesPlaceholder.map((img, index) => {
-                            return ( 
-                                <CardImage key={index} idImage={index} deleteHandler={deleteImage}  label={"Image Placeholder"} urlImage={require(`../../images/${img}`)} /> 
-                            );
-                        })
-                    ) */: 
-                        <></>
-                        
+                    ): 
+                        <></>  
                     }
                 </ImageContainer>
 
